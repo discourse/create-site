@@ -1,0 +1,52 @@
+{
+  "name": "@discourse/create-site",
+  "version": "0.1.0",
+  "description": "Agent-friendly CLI wizard to provision hosted Discourse communities via Discourse ID device flow",
+  "author": "Discourse",
+  "license": "MIT",
+  "keywords": [
+    "discourse",
+    "cli",
+    "wizard",
+    "mcp",
+    "oauth"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/discourse/create-site.git"
+  },
+  "homepage": "https://github.com/discourse/create-site#readme",
+  "bugs": {
+    "url": "https://github.com/discourse/create-site/issues"
+  },
+  "type": "module",
+  "bin": {
+    "discourse-create-site": "dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**",
+    "README.md",
+    "AGENTS.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/cli.js",
+    "build:test": "tsc -p tsconfig.test.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "npm run build && npm run build:test && node --test \"dist-test/test/**/*.test.js\"",
+    "prepublishOnly": "npm run typecheck && npm test",
+    "clean": "rm -rf dist dist-test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

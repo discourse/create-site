@@ -56,11 +56,11 @@ discourse-create-site create \
 - Otherwise exit `0` returns:
   - `redirect_url`: One-time admin sign-in invite link (share ONLY this URL with the user)
   - `user_handoff`: Reminder to share only `redirect_url`
-  - `mcp_setup`: Machine-readable MCP setup guidance (`admin_mcp_url`, `site_setting`, `transport`, `mcp_endpoint`, `oauth_metadata_url`, `user_prompt_suggestion`, `agent_instructions`, `detected_client`, `steps`, `client_instructions`)
+  - `mcp_setup`: Machine-readable MCP setup guidance (`admin_mcp_url`, `site_setting`, `transport`, `mcp_endpoint`, `oauth_metadata_url`, `user_prompt_suggestion`, `agent_instructions`, `post_setup_note`, `detected_client`, `steps`, `client_instructions`)
 
 ### 4. Post-provisioning handoff
 Share cleanly with the user in this order:
 1. **Share ONLY `redirect_url`** as a clickable link to open the new site (do not also share the bare `https://<subdomain>.discourse.group` URL, because the user must open `redirect_url` directly to claim and sign in to their admin account).
 2. Next, tell the user that once admin sign-in is complete, they should enable MCP (`mcp_server_enabled`) at a clickable link to `mcp_setup.admin_mcp_url` (`<site_origin>/admin/config/mcp/settings`).
 3. **Do NOT tell the user to run a separate CLI command outside the session.** Instead, tell them to reply `"now add mcp support"` once MCP is enabled.
-4. When the user replies `"now add mcp support"`, follow `mcp_setup.agent_instructions` (using `mcp_setup.client_instructions` as reference if applicable) to add MCP for `mcp_setup.mcp_endpoint` directly.
+4. When the user replies `"now add mcp support"`, follow `mcp_setup.agent_instructions` (using `mcp_setup.client_instructions` as reference if applicable) to add MCP for `mcp_setup.mcp_endpoint` directly. After MCP setup is confirmed, include `mcp_setup.post_setup_note`: "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup."

@@ -311,7 +311,17 @@ describe("CLI flows", () => {
     assert.match(out6.user_handoff, /Share ONLY redirect_url/i);
     assert.equal(out6.mcp_setup.site_setting, "mcp_server_enabled");
     assert.equal(out6.mcp_setup.user_prompt_suggestion, "now add mcp support");
+    assert.equal(
+      out6.mcp_setup.post_setup_note,
+      "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.",
+    );
     assert.match(out6.mcp_setup.agent_instructions, /now add mcp support/);
+    assert.equal(
+      out6.mcp_setup.agent_instructions.includes(
+        "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.",
+      ),
+      true,
+    );
     assert.match(
       out6.mcp_setup.agent_instructions,
       /https:\/\/agent-community-1\.discourse\.group\/mcp/,
@@ -515,6 +525,12 @@ describe("CLI flows", () => {
     assert.match(output, /mcp_server_enabled/);
     assert.match(output, /now add mcp support/);
     assert.match(output, /https:\/\/agent-hub\.discourse\.group\/mcp/);
+    assert.equal(
+      output.includes(
+        "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.",
+      ),
+      true,
+    );
   });
 
   it("prompts for custom subdomain and region with --customize and retries taken subdomain", async (t) => {
@@ -762,7 +778,10 @@ describe("CLI flows", () => {
     assert.match(helpRes.stdout, /discourse-create-site/);
     assert.match(helpRes.stdout, /DISCOURSE_ID_URL/);
 
+    const pkg = JSON.parse(
+      await fs.readFile(path.resolve(process.cwd(), "package.json"), "utf8"),
+    ) as { version: string };
     const versionRes = await execFileAsync(process.execPath, [cliPath, "--version"]);
-    assert.equal(versionRes.stdout.trim(), "0.1.0");
+    assert.equal(versionRes.stdout.trim(), pkg.version);
   });
 });

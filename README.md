@@ -10,6 +10,18 @@ Designed primarily for LLM coding agents (`--json` mode with structured exit cod
 npx -y @discourse/create-site
 ```
 
+## Agent Skill
+
+Install the bundled [SKILL.md](skills/create-discourse-site/SKILL.md) across Claude Code, Codex, Cursor, Gemini CLI, OpenCode, or Antigravity:
+
+```bash
+npx skills add discourse/create-site
+```
+
+Discovery endpoints:
+- Discourse ID agent auth spec: `https://id.discourse.com/auth.md`
+- Discourse LLM discovery index: `https://www.discourse.org/llms.txt`
+
 ## Agent Workflow (`--json`)
 
 In `--json` or non-TTY mode, the CLI **never blocks waiting for stdin** and **never prints `access_token` or `device_code` to stdout**. Credentials are stored per host with `0600` permissions in `~/.config/discourse-create-site/state.json`.

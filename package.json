@@ -6,10 +6,15 @@
   "license": "MIT",
   "keywords": [
     "discourse",
+    "discourse-id",
+    "forum",
+    "community",
     "cli",
     "wizard",
     "mcp",
-    "oauth"
+    "oauth",
+    "ai-agent",
+    "agent-skill"
   ],
   "repository": {
     "type": "git",
@@ -27,6 +32,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**",
+    "skills/**",
     "README.md",
     "AGENTS.md",
     "LICENSE"

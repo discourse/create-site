@@ -1,6 +1,6 @@
 {
   "name": "@discourse/create-site",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agent-friendly CLI wizard to provision hosted Discourse communities via Discourse ID device flow",
   "author": "Discourse",
   "license": "MIT",

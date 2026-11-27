@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { buildMcpSetup, detectAgentClient, formatMcpGuidance } from "../src/mcp.js";
+import {
+  buildMcpSetup,
+  detectAgentClient,
+  formatMcpGuidance,
+  POST_MCP_SETUP_NOTE,
+} from "../src/mcp.js";
 
 describe("MCP setup and agent detection", () => {
   it("detects supported agents and falls back to generic", () => {
@@ -48,9 +53,16 @@ describe("MCP setup and agent detection", () => {
     );
     assert.equal(setup.transport, "streamable-http");
     assert.equal(setup.user_prompt_suggestion, "now add mcp support");
+    assert.equal(
+      POST_MCP_SETUP_NOTE,
+      "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.",
+    );
+    assert.equal(setup.post_setup_note, POST_MCP_SETUP_NOTE);
     assert.match(setup.agent_instructions, /Do NOT tell the user to run a separate command outside this session/);
     assert.match(setup.agent_instructions, /now add mcp support/);
     assert.match(setup.agent_instructions, /https:\/\/my-forum\.discourse\.group\/mcp/);
+    assert.match(setup.agent_instructions, /Once MCP setup is confirmed/);
+    assert.ok(setup.agent_instructions.includes(POST_MCP_SETUP_NOTE));
     assert.equal(setup.detected_client.id, "generic");
     assert.equal(setup.client_instructions.command, undefined);
     assert.deepEqual(setup.client_instructions.config_snippet, {
@@ -70,6 +82,8 @@ describe("MCP setup and agent detection", () => {
     );
     assert.match(formatted, /Streamable HTTP/);
     assert.match(formatted, /https:\/\/my-forum\.discourse\.group\/mcp/);
+    assert.ok(formatted.includes(POST_MCP_SETUP_NOTE));
+    assert.ok(formatted.indexOf(setup.mcp_endpoint) < formatted.indexOf(POST_MCP_SETUP_NOTE));
   });
 
   it("tailors internal client_instructions while keeping user-facing guidance in-session", () => {

@@ -19,6 +19,9 @@ export interface McpClientInstruction {
   config_snippet?: Record<string, unknown>;
 }
 
+export const POST_MCP_SETUP_NOTE =
+  "Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.";
+
 export interface McpSetupInfo {
   enabled_by_default: false;
   admin_mcp_url: string;
@@ -28,6 +31,7 @@ export interface McpSetupInfo {
   oauth_metadata_url: string;
   user_prompt_suggestion: "now add mcp support";
   agent_instructions: string;
+  post_setup_note: string;
   detected_client: DetectedAgent;
   steps: string[];
   client_instructions: McpClientInstruction;
@@ -162,7 +166,8 @@ export function buildMcpSetup(
     mcp_endpoint: mcpEndpoint,
     oauth_metadata_url: oauthMetadataUrl,
     user_prompt_suggestion: userPromptSuggestion,
-    agent_instructions: `Do NOT tell the user to run a separate command outside this session. Tell the user to enable MCP (\`mcp_server_enabled\`) at ${adminMcpUrl} after admin sign-in, then reply "${userPromptSuggestion}". When the user replies, add/configure the remote Streamable HTTP MCP server "${subdomain}" for ${mcpEndpoint} (OAuth discovery: ${oauthMetadataUrl}) directly in this environment.`,
+    agent_instructions: `Do NOT tell the user to run a separate command outside this session. Tell the user to enable MCP (\`mcp_server_enabled\`) at ${adminMcpUrl} after admin sign-in, then reply "${userPromptSuggestion}". When the user replies, add/configure the remote Streamable HTTP MCP server "${subdomain}" for ${mcpEndpoint} (OAuth discovery: ${oauthMetadataUrl}) directly in this environment. Once MCP setup is confirmed, include this note: "${POST_MCP_SETUP_NOTE}"`,
+    post_setup_note: POST_MCP_SETUP_NOTE,
     detected_client: detectedClient,
     steps: [
       "Open the admin sign-in link directly to claim and finish setting up your admin account.",
@@ -181,5 +186,6 @@ export function formatMcpGuidance(setup: McpSetupInfo): string {
     `     ${setup.admin_mcp_url}`,
     `  3. Once enabled, tell your AI agent: "${setup.user_prompt_suggestion}"`,
     `     MCP endpoint (Streamable HTTP): ${setup.mcp_endpoint}`,
+    `  Note: ${setup.post_setup_note}`,
   ].join("\n");
 }

@@ -91,8 +91,9 @@ Newly provisioned sites do not enable Discourse's built-in MCP server by default
 
 1. Visit `<site_origin>/admin/config/mcp/settings` and enable MCP (`mcp_server_enabled`).
 2. Reply `"now add mcp support"` inside your AI agent session so the agent configures `<site_origin>/mcp` (Streamable HTTP, OAuth discovery at `<site_origin>/.well-known/oauth-protected-resource/mcp`) for you without needing to run an external CLI command.
+3. After MCP setup is confirmed: Restart your coding agents after the setup. Most agents read their skills directory and MCP configuration at startup.
 
-`mcp_setup` in `--json` output includes `admin_mcp_url`, `user_prompt_suggestion` (`"now add mcp support"`), `agent_instructions`, and `client_instructions` as a reference for the detected agent client (or generic Streamable HTTP configuration).
+`mcp_setup` in `--json` output includes `admin_mcp_url`, `user_prompt_suggestion` (`"now add mcp support"`), `agent_instructions`, `post_setup_note`, and `client_instructions` as a reference for the detected agent client (or generic Streamable HTTP configuration).
 
 ## Development
 
